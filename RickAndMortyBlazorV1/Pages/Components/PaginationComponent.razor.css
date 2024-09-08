@@ -1,0 +1,17 @@
+﻿
+
+.custom-button {
+    border: 2px solid rebeccapurple;
+    background-color: white;
+    font-weight: bold;
+    border-radius: 20px;
+    margin-left: 5px;
+}
+.page-item {
+    color: rebeccapurple !important;
+    font-weight: bold;
+}
+.page-link {
+    color: rebeccapurple !important;
+    font-weight: bold;
+}

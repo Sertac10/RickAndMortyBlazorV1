@@ -1,0 +1,5 @@
+services:
+  rickblazorclient:
+    build: .
+    ports:
+      - "81:80"

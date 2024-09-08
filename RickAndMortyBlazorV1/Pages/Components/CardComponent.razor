@@ -1,0 +1,39 @@
+﻿@using RickAndMortyBlazorV1.Dto
+@using RickAndMortyBlazorV1.Models
+@typeparam TItem
+  <section class="wrapper">
+    @foreach (var item in Items)
+    {
+          
+        <button class="card-btn card" @onclick="@(() => OnClick.InvokeAsync(item))">
+            <div class="card-content card__label">
+                 <Animate Animation="Animations.ZoomOutDown" Duration="TimeSpan.FromSeconds(0.3)">
+
+                    <img class="card__image-container" src="@ImageSelector(item)" alt="character" />
+                    @* <img class="card-img" src="@ImageSelector(item)" alt="character" /> *@
+
+                 </Animate>
+                <h5 class="card__name">@NameSelector(item)</h5>
+                 <h2>@StatusSelector(item)</h2> 
+            </div>
+        </button>  
+    }
+    @if (Items.Count == 0)
+    {
+         <Animate Animation="Animations.ZoomOutDown" Duration="TimeSpan.FromSeconds(0.2)" Delay="TimeSpan.FromSeconds(2)">
+        <p>Nothing Found</p>
+        </Animate> 
+    }
+</section> 
+
+@code{
+    [Parameter] public List<TItem> Items { get; set; } = new();
+    [Parameter] public EventCallback<TItem> OnClick { get; set; }
+    [Parameter] public TItem characterId { get; set; }
+    [Parameter] public Func<TItem, string> StatusSelector { get; set; }
+    [Parameter] public Func<TItem, int> ItemIdSelector { get; set; }
+    [Parameter] public Func<TItem, string> NameSelector { get; set; }
+    [Parameter] public Func<TItem, string> ImageSelector { get; set; }
+} 
+
+

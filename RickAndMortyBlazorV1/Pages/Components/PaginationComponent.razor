@@ -1,0 +1,45 @@
+﻿ @typeparam TItem 
+ @inject IJSRuntime JS 
+ @using RickAndMortyBlazorV1.Dto
+
+@if(PageInfo.Count != 0){
+<nav aria-label="Page navigation" style="margin-top: 50px; color:rebeccapurple;">
+    <ul class="pagination">
+        <li class="page-item @(ShowPrevious ? "" : "disabled")">
+            <a class="page-link" @onclick="() => HandlePageChanged(CurrentPage - 1)">Previous</a>
+        </li>
+
+         @foreach (var mpage in PageRange)
+        {
+            <li class="page-item @(CurrentPage == mpage ? "active" : "")">
+                <a class="page-link"@onclick="() => HandlePageChanged(mpage)">@mpage</a>
+            </li>
+        } 
+        <li class="page-item @(ShowNext ? "" : "disabled")">
+            <a class="page-link" @onclick="() => HandlePageChanged(CurrentPage + 1)">Next</a>
+        </li>
+    </ul>
+</nav>
+}
+@code {
+    [Parameter] public PageInfoDto PageInfo { get; set; } = null!;
+    [Parameter] public EventCallback<int> OnPageChanged { get; set; }
+    [Parameter] public int CurrentPage { get; set; }
+    private int StartPage => Math.Max(1, CurrentPage - 2);
+    private int EndPage => Math.Min(PageInfo.Pages, StartPage + 4);
+    private IEnumerable<int> PageRange => Enumerable.Range(StartPage, EndPage - StartPage + 1);
+
+    private async Task HandlePageChanged(int page)
+    {
+        if (page != CurrentPage)
+        {
+            await OnPageChanged.InvokeAsync(page);
+            await JS.InvokeVoidAsync("scrollToTop");
+        }
+    }
+    private bool ShowPrevious => CurrentPage > 1;
+    private bool ShowNext => CurrentPage < PageInfo.Pages;
+}
+
+
+ 

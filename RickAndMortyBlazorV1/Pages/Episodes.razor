@@ -1,0 +1,77 @@
+﻿@page "/Episodes"
+@inject RickAndMortyBlazorV1.Service.IRickAndMortyService rickMortyApi
+
+<PageTitle>Episodes</PageTitle>
+
+@if (_episode is null)
+{
+    <hr />
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <div class="default-font text-center">
+            
+        <h1>@_episode.EpisodeCode"@_episode.Name"</h1>
+        <h2>Release date: @_episode.AirDate</h2>
+
+        <div class="bold-weight" >Select episode:</div>
+        <InputSelect 
+                     style="border: 2px solid rebeccapurple;"
+                     ValueChanged="@((int id) => SelectionChanged(id))"
+                     ValueExpression="@(() => _selectedEpisodeId)"
+                     Value="@_selectedEpisodeId">
+            @foreach (var episode in _episodes)
+            {
+                <option value="@episode.Id">@episode.Name</option>
+            }
+        </InputSelect>
+
+        <h2>Characters</h2>
+
+        <CardComponent TItem="Character"
+                       Items="_characters"
+                       ItemIdSelector="@(character => character.Id)"
+                       NameSelector="@(character => character.Name)"
+                       ImageSelector="@(character => character.Image)"
+                       StatusSelector="@(character => character.Status.ToString())"
+                       OnClick="OnClickCard" />
+    </div>
+}
+
+@code {
+    private IEnumerable<Episode> _episodes = new List<Episode>();
+    private Episode _episode = null!;
+    private int _selectedEpisodeId = 1;
+    private List<Character> _characters= new();
+    protected override async Task OnInitializedAsync()
+    {
+        _episodes = await rickMortyApi.GetAllEpisodes();
+
+        _episode = await rickMortyApi.GetEpisode(_selectedEpisodeId);
+
+        foreach (string character in _episode.Characters)
+        {
+            var _character = await rickMortyApi.GetSingleUrl<Character>(character);
+            _characters.Add(_character);
+
+        }
+    }
+    private async Task SelectionChanged(int id)
+    {
+        if (_selectedEpisodeId != id)
+        {
+            _selectedEpisodeId = id;
+            _episode = null!;
+            _episode = await rickMortyApi.GetEpisode(_selectedEpisodeId);
+        }
+    }
+    private void OnClickCard()
+    {
+        StateHasChanged();
+    }
+}

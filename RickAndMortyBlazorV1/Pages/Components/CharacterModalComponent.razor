@@ -1,0 +1,50 @@
+﻿@using RickAndMortyBlazorV1.Dto
+@using RickAndMortyBlazorV1.Models
+@inject IJSRuntime JS
+@if (ShowModal)
+{
+      <div class="modal fade show" style="display: block;"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">  
+    
+        <Animate Animation="Animations.ZoomIn" Duration="TimeSpan.FromSeconds(0.2)">
+            <row>
+                <div class="modal-dialog" role="document"  id="myCharacterModal">
+                <div class="modal-content">
+                    <img class="card-img" src="@Character.Image" alt="character" />
+                    <div class="modal-header justify-content-between">
+                        <h4 class="modal-title" id="exampleModalLabel">@Character.Name</h4>
+                            <h5>@Character.Status</h5>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary" @onclick="CloseModal">Close</button>
+                    </div>
+                </div>
+            </div>
+            </row>
+        </Animate>
+    </div> 
+}
+@code {
+    [Parameter] public bool ShowModal { get; set; }
+    [Parameter] public Character? Character { get; set; }
+    [Parameter] public EventCallback OnCloseModal { get; set; }
+    private DotNetObjectReference<CharacterModalComponent> objRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && ShowModal)
+        {
+            objRef = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("closeOnClickOutside", "myModal", objRef);
+        }
+    }
+    [JSInvokable]
+    public async Task CloseModal()
+    {
+        await OnCloseModal.InvokeAsync();
+    }
+    public void Dispose()
+    {
+        objRef?.Dispose();
+    }
+
+}

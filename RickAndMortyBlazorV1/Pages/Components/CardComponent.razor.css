@@ -1,0 +1,110 @@
+﻿
+
+.card {
+    display: inline-flex;
+    width: 180px;
+    padding: 1em;
+    border-radius: 15px;
+    margin: 10px;
+    background: #6c757d;
+    position: relative;
+    transition: 0.8s;
+    box-shadow: 0 0 5px #3a1d6e, 0 0 25px #391973, 0 0 50px #1c0c38, 0 0 20px #1c0c38;
+    /*box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4, 0 0 20px #03e9f4;*/
+}
+
+.card__caption {
+    background-color: rgba(255, 255, 255, 0.65);
+    padding: 1em;
+    position: relative;
+    border-radius: 0 0 3px 3px;
+}
+
+.card__image-container {
+    background-color: rgba(0, 0, 0, 0.7);
+    text-align: center;
+    padding: 1em 1em 0;
+    border-radius: 3px 3px 0 0;
+}
+
+.card__type {
+    position: absolute;
+    top: 0;
+    right: 1em;
+    transform: translateY(-50%);
+    color: #ffffff;
+    text-transform: uppercase;
+    font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
+    letter-spacing: 0.1em;
+    padding: 0.25em;
+    line-height: 1;
+    border-radius: 2px;
+    background: #bbbbbb;
+}
+
+.card__label {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.card__name {
+    font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.card__stats {
+    margin: 1em 0;
+    width: 100%;
+    text-align: right;
+    font-weight: 300;
+}
+
+.card__abilities {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card__ability {
+    margin-top: 1em;
+    flex: 1 0;
+}
+
+.card--normal {
+    background: linear-gradient(110deg, #FDBB2D 0%, #3A1C71 100%);
+    box-shadow: 0px 5px 20px -10px #3A1C71;
+}
+
+
+.card:hover {
+    z-index: 5;
+    box-shadow: 0px 13px 30px -15px #000000;
+    transform: translateY(-10px);
+    box-shadow: 0 0 5px #41ff07, 0 0 25px #41ff07, 0 0 50px #41ff07, 0 0 200px #41ff07;
+}
+
+.card-btn {
+    border: 0;
+    background: white;
+    flex: 0 0 calc(20% - (45px / 4));
+    min-width: 300px;
+
+
+}
+
+
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100%;
+    gap: 30px;
+}
+

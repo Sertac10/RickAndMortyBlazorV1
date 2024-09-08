@@ -1,0 +1,40 @@
+﻿@page "/"
+@inject IJSRuntime JS
+<PageTitle>Home Page</PageTitle>
+<div class="season">
+        <div class="tittle-controls" data-season="season1">
+          <h2>Season 1</h2>
+          <div class="indicators">
+          </div>
+        </div>
+        <div class="container-principal">
+          <i class="fa-solid fa-angle-left left-arrow"></i>
+          <div data-season="season1" class="container-carousel">
+            <div class="carousel" id="season1">
+            </div>
+          </div>
+          <i class="fa-solid fa-angle-right right-arrow"></i>
+        </div>
+      </div>
+      <div class="season">
+        <div class="tittle-controls" data-season="season2">
+          <h2>Season 2</h2>
+          <div class="indicators">
+          </div>
+        </div>
+        <div class="container-principal">
+          <i class="fa-solid fa-angle-left left-arrow" ></i>
+          <div data-season="season2" class="container-carousel">
+            <div class="carousel" id="season2">
+            </div>
+          </div>
+          <i class="fa-solid fa-angle-right right-arrow" ></i>
+        </div>
+      </div>
+@code{
+    protected override Task OnInitializedAsync()
+    {
+        JS.InvokeVoidAsync("fetchEpisodes");
+        return base.OnInitializedAsync();
+    }
+}

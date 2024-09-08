@@ -1,0 +1,42 @@
+﻿@using RickAndMortyBlazorV1.Enums
+@implements IDisposable
+
+<section style="margin-bottom: 10px;">
+    <div style="margin-top: 50px;">
+        <div class="input-group col-m-6">
+            <input class="form-control"
+                   value="@searchTerm"
+                   placeholder="Search"
+                   @onkeypress="HandleKeyPress"
+                   @oninput="(e)=> searchTerm = e.Value.ToString()" />
+        </div>
+    </div>
+</section>
+@code {
+    [Parameter]
+    public EventCallback<string> SearchChanged { get; set; }
+    public string searchTerm { get; set; } = "";
+    public async Task TriggerSearchFromOutside()
+    {
+        await TriggerSearch();
+    }
+    private async Task HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrEmpty(searchTerm) && searchTerm.Length > 2)
+        {
+            await TriggerSearch();
+        }
+    }
+    private async Task TriggerSearch()
+    {
+        if (!string.IsNullOrEmpty(searchTerm) && searchTerm.Length > 2 || searchTerm.Length == 0)
+        {
+            await SearchChanged.InvokeAsync(searchTerm);
+            searchTerm = ""; 
+        }
+    }
+    public void Dispose()
+    {
+        searchTerm = "";
+    }
+}

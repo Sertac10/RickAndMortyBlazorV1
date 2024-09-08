@@ -1,0 +1,144 @@
+﻿@page "/characters"
+@using Application.Helpers
+@using RickAndMortyBlazorV1.Dto
+@using RickAndMortyBlazorV1.Enums
+@using RickAndMortyBlazorV1.Models
+@using RickAndMortyBlazorV1.Service
+@inject RickAndMortyBlazorV1.Service.IRickAndMortyService rickMortyApi
+@inject NavigationManager navigation
+
+<div class="container-fluid d-flex flex-column align-items-center">
+    <div class="filter-container default-font text-center">
+        @if (true)
+        {
+            <select class="filter m-1" @bind="_filter.Status">
+                <option value="@string.Empty">Select status</option>
+                @foreach (var filter in FilterUnits.Statuses)
+                {
+                    <option value="@filter">@filter</option>
+                }
+            </select>
+         
+            <select class="filter m-1" @bind="_filter.Gender">
+                <option value="@string.Empty">Select gender</option>
+                @foreach (var filter in FilterUnits.Genders)
+                {
+                    <option value="@filter">@filter</option>
+                }
+            </select>
+        }
+        <button class="filter m-1" @onclick="TriggerSearch">Search</button>
+        <button class="filter m-1" @onclick=@ClearPage>Refresh</button>
+    </div>
+    <SearchBarComponent SearchChanged="SearchChanged" @ref="searchBarRef" />
+    @if(!isLoading){
+        <hr />
+    <div class="d-flex justify-content-center flex-wrap">
+    <CardComponent TItem="Character"
+                      Items="_characters"
+                      ItemIdSelector="@(character => character.Id)"
+                      NameSelector="@(character => character.Name)"
+                      ImageSelector="@(character => character.Image)"
+                      StatusSelector="@(character => character.Status.ToString())"
+                      OnClick="OnClickCard" />
+    </div>
+    <CharacterModalComponent Character="_character" ShowModal="modalStatus" OnCloseModal="CloseModal"></CharacterModalComponent>
+    <PaginationComponent TItem="PageInfoDto" CurrentPage="@currentPage" PageInfo="_pageInfoDto" OnPageChanged="HandlePageChanged"></PaginationComponent>
+    }
+    else
+    {
+        <hr />
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    }
+</div>
+
+@code{
+    private SearchBarComponent? searchBarRef;
+    public  PageInfoDto _pageInfoDto = new();
+    public PageDto<Character> _pages = new();
+    private List<Character> _characters = new();
+    public bool modalStatus { get; set; } = false;
+    private Character? _character = new();
+    private int currentPage = 1;
+    private Filter _filter = new();
+    public string searchTerm = "";
+    private bool isLoading{ get; set; }
+
+    private async Task TriggerSearch()
+    {
+        if (searchBarRef != null)
+        {
+            await searchBarRef.TriggerSearchFromOutside();
+        }
+    }
+    private async Task SearchChanged(string value)
+    {
+
+        isLoading = true;
+        searchTerm = value;
+        currentPage = 1;
+        _pages = await rickMortyApi.GetAllCharactersAsync(0, searchTerm, _filter.Status, _filter.Gender);
+        if (_pages == null)
+        {
+            _characters = new();
+            _pageInfoDto = new();
+            searchTerm = string.Empty;
+            currentPage = 1;
+            isLoading = false;
+            StateHasChanged();
+            return;
+        } 
+        _characters = _pages.Results;
+        _pageInfoDto = _pages.Info;
+        isLoading = false;
+        StateHasChanged();
+    }
+    private void CloseModal()
+    {
+        modalStatus = false;
+    }
+    private async Task OpenCharacterModal(int id)
+    {
+        modalStatus = true;
+        _character = _characters.FirstOrDefault(c => c.Id == id);
+        StateHasChanged();
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        var episodes = await rickMortyApi.GetAllEpisodes();
+        await Refresh();
+    }
+    private async Task HandlePageChanged(int newPage)
+    {
+        currentPage = newPage;
+        _pages = await rickMortyApi.GetAllCharactersAsync(newPage,searchTerm,_filter.Status,_filter.Gender);
+        _pageInfoDto = _pages.Info;
+        _characters = _pages.Results;
+        StateHasChanged();
+
+    }
+    private async Task Refresh()
+    {
+        _pages = await rickMortyApi.GetSimplePages<Character>("character");
+        _characters = _pages.Results;
+        _pageInfoDto = _pages.Info;
+        _filter = new();
+        StateHasChanged();
+    }
+    private async void OnClickCard(Character character)
+    {
+        await OpenCharacterModal(character.Id);
+    }
+    private async void ClearPage()
+    {
+        _filter = new();
+        searchTerm = string.Empty;
+        await Refresh();
+        StateHasChanged();
+        //navigation.NavigateTo("characters", forceLoad: true);
+    }
+}
