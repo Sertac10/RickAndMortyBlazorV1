@@ -11,7 +11,7 @@
     <div class="filter-container default-font text-center">
         @if (true)
         {
-            <select class="filter m-1" @bind="_filter.Status">
+            <select class="m-1 filter" @bind="_filter.Status">
                 <option value="@string.Empty">Select status</option>
                 @foreach (var filter in FilterUnits.Statuses)
                 {
@@ -19,7 +19,7 @@
                 }
             </select>
          
-            <select class="filter m-1" @bind="_filter.Gender">
+            <select class="m-1 filter" @bind="_filter.Gender">
                 <option value="@string.Empty">Select gender</option>
                 @foreach (var filter in FilterUnits.Genders)
                 {
@@ -27,10 +27,12 @@
                 }
             </select>
         }
-        <button class="filter m-1" @onclick="TriggerSearch">Search</button>
-        <button class="filter m-1" @onclick=@ClearPage>Refresh</button>
+        <button class="m-1 filter" @onclick="TriggerSearch">Search</button>
+        <button class="m-1 filter" @onclick=@ClearPage>Refresh</button>
     </div>
     <SearchBarComponent SearchChanged="SearchChanged" @ref="searchBarRef" />
+    <CharacterModalComponent Character="_character" ShowModal="modalStatus" OnCloseModal="CloseModal"></CharacterModalComponent>
+
     @if(!isLoading){
         <hr />
     <div class="d-flex justify-content-center flex-wrap">
@@ -42,7 +44,6 @@
                       StatusSelector="@(character => character.Status.ToString())"
                       OnClick="OnClickCard" />
     </div>
-    <CharacterModalComponent Character="_character" ShowModal="modalStatus" OnCloseModal="CloseModal"></CharacterModalComponent>
     <PaginationComponent TItem="PageInfoDto" CurrentPage="@currentPage" PageInfo="_pageInfoDto" OnPageChanged="HandlePageChanged"></PaginationComponent>
     }
     else

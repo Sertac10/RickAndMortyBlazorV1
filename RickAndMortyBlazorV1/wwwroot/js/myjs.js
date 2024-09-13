@@ -4,6 +4,7 @@ function scrollToTop() {
             top: 400,
             behavior: 'smooth'
         })
+    console.log("up");
 }
 
 function closeOnClickOutside(modalId, dotNetObjRef) {
@@ -17,4 +18,8 @@ function closeOnClickOutside(modalId, dotNetObjRef) {
         }
     });
 }
+
+
+
+
 

@@ -3,17 +3,23 @@
 @inject IJSRuntime JS
 @if (ShowModal)
 {
-      <div class="modal fade show" style="display: block;"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">  
-    
+    <div @onclick="HandleClickOutside" style="position:fixed; display: flex; top:0; left:0; height: 100%; width: 100%; justify-content:center; align-items:center; z-index:999; background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
         <Animate Animation="Animations.ZoomIn" Duration="TimeSpan.FromSeconds(0.2)">
             <row>
-                <div class="modal-dialog" role="document"  id="myCharacterModal">
-                <div class="modal-content">
+                <div class="modal-dialog" role="document" id="myCharacterModal" @onclick:stopPropagation="true">
+                    <div class="modal-content" style="background-color:papayawhip;">
+                        <h5 style="position:absolute; right:0; margin-right:25px; color: @ColorStatus()">@Character.Status</h5>
+
                     <img class="card-img" src="@Character.Image" alt="character" />
-                    <div class="modal-header justify-content-between">
-                        <h4 class="modal-title" id="exampleModalLabel">@Character.Name</h4>
-                            <h5>@Character.Status</h5>
+                    <div class="modal-header justify-content-center">
+
+                        <h5  style="color:black; padding:25px;" >@Character.Name</h5>
+
+                        <hr />
                     </div>
+                        
+
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn btn-secondary" @onclick="CloseModal">Close</button>
                     </div>
@@ -21,30 +27,46 @@
             </div>
             </row>
         </Animate>
-    </div> 
+    </div>  
+
+
+
 }
 @code {
-    [Parameter] public bool ShowModal { get; set; }
+    [Parameter] public bool ShowModal { get; set; } = false;
     [Parameter] public Character? Character { get; set; }
     [Parameter] public EventCallback OnCloseModal { get; set; }
-    private DotNetObjectReference<CharacterModalComponent> objRef;
+
+    private string ColorStatus()
+    {
+
+        if (Character.Status == CharacterStatus.Alive)
+        {
+            return "green;";
+        }
+        if (Character.Status == CharacterStatus.Dead) return "red;";
+
+        return "blue;";
+    }
+
+    private void HandleClickOutside(MouseEventArgs e)
+    {
+        if (ShowModal)
+        {
+            CloseModal();
+        }
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && ShowModal)
-        {
-            objRef = DotNetObjectReference.Create(this);
-            await JS.InvokeVoidAsync("closeOnClickOutside", "myModal", objRef);
-        }
+       
     }
     [JSInvokable]
     public async Task CloseModal()
     {
         await OnCloseModal.InvokeAsync();
     }
-    public void Dispose()
-    {
-        objRef?.Dispose();
-    }
+ 
+   
 
 }
