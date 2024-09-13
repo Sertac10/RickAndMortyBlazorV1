@@ -1,10 +1,11 @@
 ﻿@inherits LayoutComponentBase
+@inject RickAndMortyBlazorV1.Service.IRickAndMortyService rickMortyApi
 <div class="main">
     
     <div class="sticky-top">
         <NavMenu />
     </div>
-    <header class="text-center bg-light text-dark" style="position: relative; height: 100vh; display: flex; justify-content: center; align-items: center; height: 380px;">
+    <header class="bg-light text-dark text-center" style="position: relative; height: 100vh; display: flex; justify-content: center; align-items: center; height: 380px;">
         <h1 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: bold; font-size: 4rem;">
             The Rick and Morty API
         </h1>
@@ -15,9 +16,30 @@
         </svg>
     </header>
     <main>
-        <article class="content">
+        <article class="content" style="background-color: #272b33;">
             @Body
-            <Footer></Footer>
+           
         </article>
+        <div style="background-color:#212328 !important;">
+        <Footer info="info"></Footer>
+        </div>
     </main>
 </div>
+
+@code{
+    
+    public Dictionary<string, string> info { get; set; } = new();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var characters = await rickMortyApi.GetUrl<Character>("https://rickandmortyapi.com/api/character");
+        var locations = await rickMortyApi.GetUrl<Location>("https://rickandmortyapi.com/api/location");
+        var episodes = await rickMortyApi.GetUrl<Episode>("https://rickandmortyapi.com/api/episode");
+        info.Add("character", characters.Info.Count.ToString());
+        info.Add("location", locations.Info.Count.ToString());
+        info.Add("episode", episodes.Info.Count.ToString());
+    }
+ 
+}

@@ -15,3 +15,8 @@
     color: rebeccapurple !important;
     font-weight: bold;
 }
+.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.4;
+}

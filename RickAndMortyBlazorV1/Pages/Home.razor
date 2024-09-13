@@ -1,6 +1,7 @@
 ﻿@page "/"
 @inject IJSRuntime JS
 <PageTitle>Home Page</PageTitle>
+
 <div class="season">
         <div class="tittle-controls" data-season="season1">
           <h2>Season 1</h2>
@@ -36,5 +37,7 @@
     {
         JS.InvokeVoidAsync("fetchEpisodes");
         return base.OnInitializedAsync();
+
+
     }
 }

@@ -40,13 +40,8 @@
     private string ColorStatus()
     {
 
-        if (Character.Status == CharacterStatus.Alive)
-        {
-            return "green;";
-        }
-        if (Character.Status == CharacterStatus.Dead) return "red;";
+        return Character.Status == CharacterStatus.Alive ? "green;" : Character.Status == CharacterStatus.Dead ? "red;" : "blue;";
 
-        return "blue;";
     }
 
     private void HandleClickOutside(MouseEventArgs e)
