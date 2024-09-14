@@ -4,3 +4,15 @@
     background-color: green;
     border-radius: 50%;
 }
+
+p{
+    color:aliceblue;
+    font-weight:500;
+    
+}
+p:hover {
+        color: goldenrod;
+        transition-duration: 200ms;
+        cursor:pointer;
+
+}

@@ -1,12 +1,23 @@
 ﻿@using System.ComponentModel.DataAnnotations
  
 <footer class="text-muted py-4 mt-5 text-center">
-    <p style="color:aliceblue;">CHARACTERS: @GetDictionaryValue("character") |
-                                LOCATIONS: @GetDictionaryValue("location") | 
-                                EPISODES: @GetDictionaryValue("episode")
+    <div class="d-flex justify-content-center">
+        <p class="m-2">
+        CHARACTERS: @GetDictionaryValue("character") 
+                                
      </p>
-    <div style="display:flex; justify-content:center; align-items:center; margin:20px;">
-    <p style="color:aliceblue; margin:0;">SERVER STATUS  </p>
+        <p class="m-2">
+            
+            LOCATIONS: @GetDictionaryValue("location") 
+            
+        </p>
+        <p class="m-2">
+          
+            EPISODES: @GetDictionaryValue("episode")
+        </p>
+    </div>
+    <div class="footer-div" style="display:flex; justify-content:center; align-items:center; margin:20px;">
+    <p class="status" style="margin:0;">SERVER STATUS  </p>
         <div class="green-dot" style="margin-left:10px; justify-content:center; align-items:center;"></div>
     </div>
     <div>

@@ -1,0 +1,33 @@
+
+    .support-us:hover {
+        background-color: goldenrod;
+        color: aliceblue;
+        transition-duration: 200ms;
+    }
+
+@media (max-width: 575px) {
+    .be-hidden {
+        display: none;
+    }
+
+ 
+    .default-font {
+        padding-bottom: 25px;
+    }
+   
+}
+
+.support-us {
+    padding: 7px 18px;
+    font-size: 12px;
+     text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+   border: 1px solid;
+    border-radius: 8px;
+    background-color: transparent;
+    transition-duration: 500ms;
+    text-decoration:none;
+    border-color:goldenrod;
+}
