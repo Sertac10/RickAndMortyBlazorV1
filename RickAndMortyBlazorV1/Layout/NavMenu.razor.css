@@ -5,6 +5,7 @@
         transition-duration: 200ms;
     }
 
+
 @media (max-width: 575px) {
     .be-hidden {
         display: none;

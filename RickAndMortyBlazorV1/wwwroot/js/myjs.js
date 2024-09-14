@@ -1,7 +1,7 @@
 ﻿
 function scrollToTop() {
         window.scrollTo({
-            top: 400,
+            top: 450,
             behavior: 'smooth'
         })
     console.log("up");
@@ -22,4 +22,9 @@ function closeOnClickOutside(modalId, dotNetObjRef) {
 
 
 
-
+window.scrollHandler = function (dotNetHelper) {
+    window.onscroll = function () {
+        let scrollPosition = window.scrollY || document.documentElement.scrollTop;
+        dotNetHelper.invokeMethodAsync('HandleScroll', scrollPosition);
+    };
+};
