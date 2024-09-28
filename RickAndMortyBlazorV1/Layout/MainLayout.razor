@@ -7,7 +7,7 @@
 
     <main>
   
-        <article class="content px-4" style="background-color: #272b33;">
+        <article style="background-color: #272b33;">
             @Body
         </article>
           <div style="background-color:#212328 !important;">
@@ -17,7 +17,7 @@
     </main>
 </div>
 
-  @code{
+@code{
     public Dictionary<string, string> info { get; set; } = new();
     protected override async Task OnInitializedAsync()
     {
@@ -27,6 +27,8 @@
         info.Add("character", characters.Info.Count.ToString());
         info.Add("location", locations.Info.Count.ToString());
         info.Add("episode", episodes.Info.Count.ToString());
+        var episodes1 = await rickMortyApi.GetAllEpisodes();
+        rickMortyApi.Episodes = episodes1.ToList();
     }
  
 }  

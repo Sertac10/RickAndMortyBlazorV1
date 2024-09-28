@@ -28,3 +28,12 @@ window.scrollHandler = function (dotNetHelper) {
         dotNetHelper.invokeMethodAsync('HandleScroll', scrollPosition);
     };
 };
+
+window.changeTheme = (themeName) => {
+    var link = document.getElementById('theme-link');
+    if (link) {
+        link.href = `css/theme/${themeName}.css`;
+       
+    }
+    /*location.reload();*/
+};

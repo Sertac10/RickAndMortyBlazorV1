@@ -35,7 +35,7 @@
 
     @if(!isLoading){
         <hr />
-    <div class="d-flex justify-content-center flex-wrap">
+@*     <div class="d-flex justify-content-center flex-wrap">
     <CardComponent TItem="Character"
                       Items="_characters"
                       ItemIdSelector="@(character => character.Id)"
@@ -43,7 +43,23 @@
                       ImageSelector="@(character => character.Image)"
                       StatusSelector="@(character => character.Status.ToString())"
                       OnClick="OnClickCard" />
-    </div>
+    </div> *@
+
+       
+              <CardComponent TItem="Character"
+                           Items="_characters"
+                           _episodes="_episodes"
+                           ItemIdSelector="@(character => character.Id)"
+                           NameSelector="@(character => character.Name)"
+                           ImageSelector="@(character => character.Image)"
+                           StatusSelector="@(character => character.Status.ToString())"
+                           LocationSelector="@(character=> character.Location.Name)"
+                           EpisodeSelector="@(character=>character.Episode.First().ToString())"
+                           SpeciesSelector="@(character=>character.Species)"
+                           OnClick="OnClickCard" />  
+     
+                          
+                     
     <PaginationComponent TItem="PageInfoDto" CurrentPage="@currentPage" PageInfo="_pageInfoDto" OnPageChanged="HandlePageChanged"></PaginationComponent>
     }
     else
@@ -60,7 +76,7 @@
 @code{
     private SearchBarComponent? searchBarRef;
     public  PageInfoDto _pageInfoDto = new();
-    public PageDto<Character> _pages = new();
+    public PageDto<Character>? _pages = new();
     private List<Character> _characters = new();
     public bool modalStatus { get; set; } = false;
     private Character? _character = new();
@@ -68,7 +84,7 @@
     private Filter _filter = new();
     public string searchTerm = "";
     private bool isLoading{ get; set; }
-
+    public List<Episode> _episodes { get; set; } = new();
     private async Task TriggerSearch()
     {
         if (searchBarRef != null)
@@ -110,6 +126,7 @@
     }
     protected override async Task OnInitializedAsync()
     {
+        _episodes = rickMortyApi.Episodes;
         var episodes = await rickMortyApi.GetAllEpisodes();
         await Refresh();
     }

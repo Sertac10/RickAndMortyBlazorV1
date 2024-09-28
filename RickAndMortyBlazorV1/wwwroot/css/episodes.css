@@ -144,10 +144,27 @@
     
 }
 
-@media all and (max-width:500px){
+@media all and (max-width:500px) {
 
-    .season .container-carousel .carousel{
-        grid-template-columns:  repeat(1,1fr);
-    } 
-    
+    .season .container-carousel .carousel {
+        grid-template-columns: repeat(1,1fr);
+    }
+
+    .default-font {
+        padding-bottom: 25px;
+    }
+
+/*    body {
+        color: brown !important;
+        background-color: chartreuse !important;
+    }
+
+    .parent1 {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+    }*/
+
 }
+
+    

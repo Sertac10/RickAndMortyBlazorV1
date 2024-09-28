@@ -3,7 +3,8 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    color: antiquewhite !important;
+    /*color: #272b33 !important;*/
+    background-color: #272b33 !important;
 }
 
 
@@ -80,8 +81,9 @@ a, .btn-link {
 
     .loading-progress circle {
         fill: none;
-        stroke: #e0e0e0;
-        stroke-width: 0.6rem;
+        /*stroke: #e0e0e0;*/
+        stroke:blueviolet;
+        stroke-width: 0.9rem;
         transform-origin: 50% 50%;
         transform: rotate(-90deg);
     }
@@ -97,6 +99,7 @@ a, .btn-link {
     text-align: center;
     font-weight: bold;
     inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+    color:aliceblue;
 }
 
     .loading-progress-text:after {
@@ -106,4 +109,28 @@ a, .btn-link {
 code {
     color: #c02d76;
 }
+
+/* From Uiverse.io by cbolson */
+.switch {
+    --_switch-bg-clr: #70a9c5;
+    --_switch-padding: 4px; /* padding around button*/
+    --_slider-bg-clr: rgba(12, 74, 110, 0.65); /* slider color unchecked */
+    --_slider-bg-clr-on: rgba(12, 74, 110, 1); /* slider color checked */
+    --_slider-txt-clr: #ffffff;
+    --_label-padding: 1rem 2rem; /* padding around the labels -  this gives the switch it's global width and height */
+    --_switch-easing: cubic-bezier( 0.47, 1.64, 0.41, 0.8 ); /* easing on toggle switch */
+    color: white;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    border-radius: 9999px;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    position: relative;
+    isolation: isolate;
+}
+
+
 

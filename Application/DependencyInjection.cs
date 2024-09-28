@@ -7,7 +7,7 @@ public static class DependencyInjection
     public static void AddApplication(this IServiceCollection services)
     {
         services.AddTransient(_ => new HttpClient());
-        services.AddTransient<IRickAndMortyService, RickAndMortyService>();
+        services.AddSingleton<IRickAndMortyService, RickAndMortyService>();
 
     }
 }

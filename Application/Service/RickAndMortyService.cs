@@ -8,8 +8,11 @@ namespace RickAndMortyBlazorV1.Service
 {
     public class RickAndMortyService : BaseService, IRickAndMortyService
     {
+        public List<Episode> Episodes { get; set; }
+
         public RickAndMortyService(string baseAddress = "https://rickandmortyapi.com/") : base(baseAddress)
         {
+
         }
 
         public async Task<Character> GetCharacter(int id)

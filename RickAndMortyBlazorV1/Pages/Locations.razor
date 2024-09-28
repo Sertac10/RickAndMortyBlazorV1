@@ -1,4 +1,76 @@
 ﻿@page "/Locations"
 @inject RickAndMortyBlazorV1.Service.IRickAndMortyService rickMortyApi
 
+<h1>Location Page</h1>
+@* @typeparam TItem
 
+
+ <div class="wrapbox">
+     <div class="innerbox">
+ @foreach(TItem character in Items){
+
+            <div class="Card">
+                <div class="CardImage">
+                    <img class="CardImage" src="@ImageSelector(character)" /> 
+                    </div>
+        <div class="CardContent">
+
+                    <div class="CardSection">
+                        <a @onclick="@(() => OnClick.InvokeAsync(character))">
+                            <h2 style="margin-bottom:0;">
+                                @NameSelector(character)
+                            </h2>
+                        </a>
+                         <span class="status" style="font-weight:500;">
+                            <span class="icon" style="background-color:@GetStatusColor(StatusSelector(character))"/>
+                    @StatusSelector(character) - @SpeciesSelector(character)
+                        </span> 
+                    </div>
+                    <div class="CardSection mtop">
+                        <span class="text-gray">Last known location:</span>
+                           <a>
+                               @LocationSelector(character)
+                           </a>
+                    </div>
+                    <div class="CardSection mtop">
+                        <span class="text-gray">First seen in:</span>
+                        @{
+                            int episodeId = int.Parse(EpisodeSelector(character).Split('/').Last());
+                            Episode? episode = _episodes.Find(episode => episode.Id == episodeId);
+                            <a>@episode?.Name</a>
+                        }
+                       
+                    </div>
+
+        </div>
+      
+    </div>
+ }
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<TItem> Items { get; set; } = new();
+    [Parameter] public EventCallback<TItem> OnClick { get; set; }
+    [Parameter] public TItem? characterId { get; set; }
+    [Parameter] public Func<TItem, string> StatusSelector { get; set; } = null!;
+    [Parameter] public Func<TItem, int> ItemIdSelector { get; set; } = null!;
+    [Parameter] public Func<TItem, string> NameSelector { get; set; } = null!;
+    [Parameter] public Func<TItem, string> ImageSelector { get; set; } = null!;
+    [Parameter] public Func<TItem, string> LocationSelector { get; set; } = null!;
+    [Parameter] public Func<TItem, string> EpisodeSelector { get; set; } = null!;
+    [Parameter] public Func<TItem, string> SpeciesSelector { get; set; } = null!;
+    [Parameter] public List<Episode> _episodes { get; set; } = new();
+
+    private string GetStatusColor(string status)
+    {
+        return status switch
+        {
+            "Alive" => "green",
+            "Unknown" => "grey",
+            "Dead" => "red",
+            _ => "black"
+        };
+    }
+    
+}  *@

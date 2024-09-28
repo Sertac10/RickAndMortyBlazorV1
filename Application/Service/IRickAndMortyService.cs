@@ -6,7 +6,7 @@ namespace RickAndMortyBlazorV1.Service
 {
     public interface IRickAndMortyService
     {
-
+        List<Episode> Episodes { get; set; }
         Task<Character> GetCharacter(int id);
         Task<PageDto<T>> GetSimplePages<T>(string path, int page = 0);
         Task<PageDto<Character>?> GetAllCharactersAsync(int page = 1, string searchTerm = "", string charStatus = "", string charGender = "");
