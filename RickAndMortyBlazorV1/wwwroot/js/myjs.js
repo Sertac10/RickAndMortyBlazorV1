@@ -24,8 +24,15 @@ function closeOnClickOutside(modalId, dotNetObjRef) {
 
 window.scrollHandler = function (dotNetHelper) {
     window.onscroll = function () {
-        let scrollPosition = window.scrollY || document.documentElement.scrollTop;
-        dotNetHelper.invokeMethodAsync('HandleScroll', scrollPosition);
+        let scrollPosition = Math.min(
+
+            parseInt(window.scrollY)
+        );
+
+        if (dotNetHelper && dotNetHelper.invokeMethodAsync) {
+            dotNetHelper.invokeMethodAsync('HandleScroll', scrollPosition)
+                .catch(error => console.error("Blazor calling method error: ", error));
+        }
     };
 };
 
