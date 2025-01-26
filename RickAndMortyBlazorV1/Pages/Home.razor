@@ -29,15 +29,19 @@
             <div class="carousel" id="season2">
             </div>
           </div>
-          <i class="fa-solid fa-angle-right right-arrow" ></i>
+        <i class="fa-solid fa-angle-right right-arrow"></i>
+          
         </div>
       </div>
 @code{
+
+  
     protected override Task OnInitializedAsync()
     {
         JS.InvokeVoidAsync("fetchEpisodes");
         return base.OnInitializedAsync();
 
-
+        
     }
+
 }

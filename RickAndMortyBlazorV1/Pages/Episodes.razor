@@ -4,9 +4,6 @@
 <PageTitle>Episodes</PageTitle>
 <hr />
 
-
-
-
 <hr />
 @if (_episode is null)
 {
@@ -20,11 +17,8 @@
 else
 {
     <div class="default-font text-center"> 
-    
-
         <h1 style="color:antiquewhite;">@_episode.EpisodeCode"@_episode.Name"</h1>
         <h2 style="color:antiquewhite;">Release date: @_episode.Created.GetValueOrDefault().Date</h2>
-
         <div class="bold-weight" style="color:antiquewhite;" >Select episode:</div>
         <InputSelect 
                      style="border: 2px solid rebeccapurple;"
@@ -38,7 +32,6 @@ else
         </InputSelect>
 
         <h2 style="color:antiquewhite; margin-top:15px;">Characters</h2>
-
        
     </div>
     <CardComponent TItem="Character"

@@ -15,7 +15,7 @@
 @code {
     [Parameter]
     public EventCallback<string> SearchChanged { get; set; }
-    public string searchTerm { get; set; } = "";
+    public string searchTerm { get; set; } = string.Empty;
     public async Task TriggerSearchFromOutside()
     {
         await TriggerSearch();
@@ -32,11 +32,11 @@
         if (!string.IsNullOrEmpty(searchTerm) && searchTerm.Length > 2 || searchTerm.Length == 0)
         {
             await SearchChanged.InvokeAsync(searchTerm);
-            searchTerm = ""; 
+            searchTerm = string.Empty; 
         }
     }
     public void Dispose()
     {
-        searchTerm = "";
+        searchTerm = string.Empty;
     }
 }

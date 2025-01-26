@@ -13,13 +13,9 @@
 
                     <img class="card-img" src="@Character.Image" alt="character" />
                     <div class="modal-header justify-content-center">
-
                         <h5  style="color:black; padding:25px;" >@Character.Name</h5>
-
                         <hr />
                     </div>
-                        
-
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn btn-secondary" @onclick="CloseModal">Close</button>
                     </div>
@@ -46,10 +42,7 @@
 
     private void HandleClickOutside(MouseEventArgs e)
     {
-        if (ShowModal)
-        {
-            CloseModal();
-        }
+        if (ShowModal) CloseModal();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

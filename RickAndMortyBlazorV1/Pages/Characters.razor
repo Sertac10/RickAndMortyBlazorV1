@@ -32,20 +32,8 @@
     </div>
     <SearchBarComponent SearchChanged="SearchChanged" @ref="searchBarRef" />
     <CharacterModalComponent Character="_character" ShowModal="modalStatus" OnCloseModal="CloseModal"></CharacterModalComponent>
-
     @if(!isLoading){
         <hr />
-@*     <div class="d-flex justify-content-center flex-wrap">
-    <CardComponent TItem="Character"
-                      Items="_characters"
-                      ItemIdSelector="@(character => character.Id)"
-                      NameSelector="@(character => character.Name)"
-                      ImageSelector="@(character => character.Image)"
-                      StatusSelector="@(character => character.Status.ToString())"
-                      OnClick="OnClickCard" />
-    </div> *@
-
-       
               <CardComponent TItem="Character"
                            Items="_characters"
                            _episodes="_episodes"
@@ -58,8 +46,6 @@
                            SpeciesSelector="@(character=>character.Species)"
                            OnClick="OnClickCard" />  
      
-                          
-                     
     <PaginationComponent TItem="PageInfoDto" CurrentPage="@currentPage" PageInfo="_pageInfoDto" OnPageChanged="HandlePageChanged"></PaginationComponent>
     }
     else
@@ -157,6 +143,5 @@
         searchTerm = string.Empty;
         await Refresh();
         StateHasChanged();
-        
     }
 }
